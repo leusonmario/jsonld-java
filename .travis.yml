@@ -1,13 +1,26 @@
+
+sudo: required
 language: java
-sudo: false
-cache:
-  directories:
-  - $HOME/.m2
+
 jdk:
   - oraclejdk8
-notifications:
-  email:
-    - ansell.peter@gmail.com
-    - tristan.king@gmail.com
-after_success:
-  - mvn clean test jacoco:report coveralls:report
+
+
+script:
+  - mvn clean cobertura:cobertura -Dtest=ContextCompactionTest#testCompaction -DfailIfNoTests=false
+
+before_deploy:
+- tar -zcvf coverage-result.tar.gz /home/travis/build/leusonmario/jsonld-java/target/site/cobertura
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "CL/HmVfVCNckFPVF2v1PRfaAnmnexIWkJ8oHOPUH2gsxSdFVsAWi40397ATe3pTEz9rhy9MEmtomSfOk2nnsa7/3MbIy4sfZMK6eKxXcGb3XLNBwU5RaXDFWGs3fdR62tJlixtrbS1UDt54Oc9TlsgGEm58XUTQ02SoIbRIPtkZCVRP5ZuPk7OQSVOjw7YoHefH9PxLRmsg30zJNujb0MsE9aa4oS+c9nazMqq34VZ47PZjR7oA8wV7Ob1cT4p9jAdwiM6t30MPH6x+elRYF86u2heoTxUej8aIoYD3LRldHQXQGKx3raOeUqRKYYmYsKxqIE/Y5i/S+sdb/K+Rt228MRoy9RmFCMFcVRouOLOqh8K76REoOhyJWJFqyQmheQE4k2q/bwj8oa2dJM8sT8lJkz7lP8YhL9I1R8T9sggoThSImTCBpDFUN0LV0gK3Qi1+LLN50k/LR5OLHBuEr8ktGph2MU08s6/MNRwuqHOOX+palnIDSDYTuNwyKPwkdMpauNstdTvl5ZLvq6u+TQuGV3oTb6xXioeOIAFz1qkUD0UxViLLzQjy5vPv0Oc4Lh+Nm+zq88jsuXWd7vKI/Hsa1PkL9jFnRTqpGM8hDeig5hVvRwSw/dWA1VdTJSdkMKEplzidjAUcsleuCx6zAZfcekXZg6d+dBZr32kqu7mc="
+
+
+  file: coverage-result.tar.gz
+  file_glob: true
+  overwrite: true
+  skip_cleanup: true
+  on:
+    tags: true

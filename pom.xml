@@ -316,6 +316,7 @@
 						</execution>
 					</executions>
 					<configuration>
+<testFailureIgnore>true</testFailureIgnore>
 						<signature>
 							<groupId>org.codehaus.mojo.signature</groupId>
 							<artifactId>java16</artifactId>
@@ -382,7 +383,18 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-			</plugins>
+			<plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
+        </plugins>
 		</pluginManagement>
 	</build>
 
@@ -459,7 +471,18 @@
 							</execution>
 						</executions>
 					</plugin>
-				</plugins>
+				<plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
+        </plugins>
 			</build>
 		</profile>
         <profile>
@@ -477,7 +500,18 @@
                             <target>${maven.compiler.testTarget}</target>
                         </configuration>
                     </plugin>
-                </plugins>
+                <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
+        </plugins>
             </build>
         </profile>
 	</profiles>
